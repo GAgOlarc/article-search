@@ -3,7 +3,9 @@ var newParagraph = document.getElementById("new-task");
 var addButton = document.getElementsByTagName("button")[0]; //firtst button
 var searchButton = document.getElementsByTagName("button")[1]; //second button
 var completedTaskHolder = document.createElement("ul");     //new ul list
-var createXButton = document.createElement("button");    //delet button
+
+//var listItem = document.createElement("li");
+//listItem.className = "article";
 
 //Append ul list to secondary-content
 function createNewUlList() {
@@ -16,27 +18,43 @@ createNewUlList();
 //New task list item
 var createNewTaskElement = function (taskLabel, taskString) {
     //Create list item
-    var listItem = document.createElement("li");  
+    var listItem = document.createElement("li");
     //label
     var label = document.createElement("label");
     //paragraph (text)
     var paragraph = document.createElement("p");
+    //delet button
+    var createXButton = document.createElement("button");
 
     //Each element needs modifying  
-    createXButton.className = 'delet';
-    listItem.className = "article";   
+    createXButton.className = 'delete-task';
+    listItem.className = "article";
     label.type = "label";
 
     //Each element needs appending
     listItem.appendChild(createXButton);
     listItem.appendChild(label);
     listItem.appendChild(paragraph);
-   
+
     createXButton.innerText = 'x';
     label.innerText = taskLabel;
     paragraph.innerText = taskString;
 
+    //Delete a task
+    var deleteTask = function () {
+        console.log("Delete task");
 
+        var listItem = this.parentNode;
+        var ul = listItem.parentNode;
+
+        if (confirm("Do you really want to delete the selected article?") == true) {
+            //Remove the parent list item from the ul
+            ul.removeChild(listItem);
+        }
+    }
+
+    //Set the click handler to delet function
+    createXButton.addEventListener("click", deleteTask);
 
     return listItem;
 }
@@ -59,18 +77,6 @@ var addTask = function () {
     } else {
         alert("Please type something on the fields!")
     }
-
-    //delet();
-}
-
-//Delet a task
-var delet = function () {
-    console.log("Delet task");
-    var listItem = this.parentNode;
-    var ul = listItem.parentNode;
-  
-    //Remove the parent list item from the ul
-    ul.removeChild(listItem);
 }
 
 //Set the click handler to addTask function
@@ -85,8 +91,6 @@ newParagraph.addEventListener("keydown", function(event) {
     }
 });
 
-//Set the click handler to delet function
-createXButton.addEventListener("click", delet);
 
 
 
